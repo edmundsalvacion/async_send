@@ -22,7 +22,7 @@
 
 require "singleton"
 require "async_send/config"
-require "async_send/model"
+require "async_send/object"
 require "async_send/worker"
 require "beanstalk-client"
 
