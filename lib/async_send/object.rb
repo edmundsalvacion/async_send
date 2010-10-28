@@ -1,5 +1,5 @@
 module AsyncSend
-  class Object
+  module Object
     
     def async_send(method, *args)
 
