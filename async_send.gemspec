@@ -5,15 +5,16 @@ Gem::Specification.new do |s|
   s.name        = "async_send"
   s.version     = AsyncSend::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = []
-  s.email       = []
-  s.homepage    = "http://rubygems.org/gems/async_send"
-  s.summary     = "TODO: Write a gem summary"
-  s.description = "TODO: Write a gem description"
+  s.authors     = ["Edmund Salvacion"]
+  s.email       = ["edmund.salvacion@gmail.com"]
+  s.homepage    = "http://edmundatwork.com"
+  s.summary     = "A Beanstalkd powered asynchronous send"
+  s.description = "A Beanstalkd powered asycnhronous send"
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "async_send"
 
+  s.add_dependency("beanstalk-client", ["~> 1.1.0"])
   s.add_development_dependency "bundler", ">= 1.0.0"
 
   s.files        = `git ls-files`.split("\n")
