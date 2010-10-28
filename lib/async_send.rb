@@ -24,7 +24,10 @@ require "singleton"
 require "async_send/config"
 require "async_send/object"
 require "async_send/worker"
+require "async_send/railtie"
 require "beanstalk-client"
+
+require "async_send/railtie" if defined?(Rails)
 
 module AsyncSend
 
