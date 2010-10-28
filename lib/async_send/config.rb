@@ -1,4 +1,4 @@
-require "beanstalk/pool"
+require "beanstalk-client"
 
 module AsyncSend
   class Config
