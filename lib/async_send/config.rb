@@ -28,7 +28,9 @@ module AsyncSend
     end
 
     def _pool(settings)
-      self.pool = Beanstalk::Pool.new(settings['host'].split(','))
+      if settings['host']
+        Beanstalk::Pool.new(settings['host'].split(','))
+      end
     end 
 
   end
