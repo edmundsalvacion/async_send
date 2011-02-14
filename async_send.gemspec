@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Edmund Salvacion"]
   s.email       = ["edmund.salvacion@gmail.com"]
+  s.default_executable = 'async_send'
   s.homepage    = "http://edmundatwork.com"
   s.summary     = "A Beanstalkd powered asynchronous send"
   s.description = "A Beanstalkd powered asycnhronous send"

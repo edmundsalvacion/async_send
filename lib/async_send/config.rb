@@ -5,8 +5,7 @@ module AsyncSend
     include Singleton
 
     attr_accessor \
-      :host,
-      :port,
+      :hosts,
       :tube
 
     attr_reader :pool
@@ -15,22 +14,18 @@ module AsyncSend
       settings.each_pair do |name, value|
         send("#{name}=", value) if respond_to?("#{name}=")
       end
-      @settings = settings.dup
     end
 
     def pool
-      @pool ||= _pool(@settings)
+      @pool ||= _pool
     end
 
     def pool=(pool)
-      # !!TODO: Do a check on set
-      @pool = pool
+      @pool = pool if pool.is_a?(Beanstalk::Pool)
     end
 
-    def _pool(settings)
-      if settings['host']
-        Beanstalk::Pool.new(settings['host'].split(','))
-      end
+    def _pool
+      Beanstalk::Pool.new(self.hosts)
     end 
 
   end

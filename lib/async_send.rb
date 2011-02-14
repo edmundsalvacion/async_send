@@ -30,16 +30,13 @@ require "beanstalk-client"
 require "async_send/railtie" if defined?(Rails)
 
 module AsyncSend
-
   class << self
-    
     def configure
       config = AsyncSend::Config.instance
       block_given? ? yield(config) : config
     end
-
     alias :config :configure
-
   end
-
 end
+
+Object.send(:include, AsyncSend::Object)

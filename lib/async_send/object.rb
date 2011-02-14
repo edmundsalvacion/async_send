@@ -20,8 +20,7 @@ module AsyncSend
         end
 
       else
-        # !!TODO: Handle invalid method
-        puts 'Invalid method'
+        raise NoMethodError "undefined method `#{method.to_s}' for #{self.to_s}"
       end
     end
 

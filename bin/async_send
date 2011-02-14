@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# -*- encoding: binary -*-
+require 'optparse'
+require 'time'
+require 'async_send'
+
+# Autoflush
+$stdout.sync = true
+$stderr.sync = true
+
+rails_path = nil
+
+# parse options
+opt_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: async_send [options] COMMAND"
+
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-r", "--railspath [HOST:PORT]", "Rails application path") do |path|
+    rails_path = path
+  end
+
+  opts.on("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+
+end
+
+opt_parser.parse!
+
+rails_path ||= Dir.pwd
+
+# include rails
+require File.expand_path(rails_path + '/config/boot')
+require File.expand_path(rails_path + '/config/environment')
+
+# start worker
+worker = AsyncSend::Worker.new(nil)
+worker.work
