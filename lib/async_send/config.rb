@@ -25,7 +25,9 @@ module AsyncSend
     end
 
     def _pool
-      Beanstalk::Pool.new(self.hosts)
+      if self.hosts
+        Beanstalk::Pool.new(self.hosts)
+      end
     end 
 
   end
