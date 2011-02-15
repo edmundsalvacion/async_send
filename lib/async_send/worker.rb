@@ -37,6 +37,7 @@ module AsyncSend
     end
 
     def quit
+      puts "RECIEVED QUIT SIGNAL"
       Process.kill('TERM', 0) unless @busy
       @quit = true
     end
