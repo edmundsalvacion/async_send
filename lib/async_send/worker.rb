@@ -23,6 +23,10 @@ module AsyncSend
             @busy = true
             data = ActiveSupport::JSON.decode(job.body)
 
+            puts "Job Recieved #{Time.now}"
+            puts data
+            puts "\n"
+
             unless data['embedded']
               object = Kernel.const_get(data['class']).find(data['id'])
             else
@@ -33,8 +37,10 @@ module AsyncSend
             object.send(data['method'], *data['args'])
 
           rescue Exception => e
+            puts "Job Error #{Time.now}"
             puts e.message
-            puts e.backtrace.inspect
+            puts e.backtrace
+            puts "\n"
           ensure
             job.delete
             @busy = false
