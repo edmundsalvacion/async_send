@@ -8,6 +8,7 @@ module AsyncSend
     def work
 
       puts "Starting AsyncSend Worker: pid #{Process.pid}"
+      puts "Rails Environment: #{Rails.env}"
 
       # register signal handlers
       trap('QUIT') { quit }
