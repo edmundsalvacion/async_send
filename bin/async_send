@@ -2,7 +2,6 @@
 # -*- encoding: binary -*-
 require 'optparse'
 require 'time'
-#require 'async_send'
 
 # Autoflush
 $stdout.sync = true
@@ -39,6 +38,8 @@ begin
 rescue
 ensure
 end
+
+require 'async_send'
 
 # start worker
 worker = AsyncSend::Worker.new(nil)

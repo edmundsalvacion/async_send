@@ -12,6 +12,8 @@ module AsyncSend
       # register signal handlers
       trap('QUIT') { quit }
 
+      puts AsyncSend.public_methods
+
       AsyncSend.config.pool.watch(AsyncSend.config.tube)
       loop do
 
@@ -21,8 +23,16 @@ module AsyncSend
           begin
             @busy = true
             data = ActiveSupport::JSON.decode(job.body)
-            object = Kernel.const_get(data['class']).find(data['id'])
+
+            unless data['embedded']
+              object = Kernel.const_get(data['class']).find(data['id'])
+            else
+              parent = Kernel.const_get(data['parent_class']).find(data['parent_id'])
+              object = parent.send(data['relation_key']).find(data['id'])
+            end
+
             object.send(data['method'], *data['args'])
+
           rescue Exception => e
             puts e.message
             puts e.backtrace.inspect
