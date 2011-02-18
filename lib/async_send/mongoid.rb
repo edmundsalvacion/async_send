@@ -19,8 +19,8 @@ module AsyncSend
             if self.embedded?
 
               # get relation key
-              self._parent.relations.each do |relation|
-                is_embedded = relation.macro.eql?(:embeds_one) or relation.macro.eql?(:embeds_many)
+              self._parent.relations.each_value do |relation|
+                is_embedded = (relation.macro.eql?(:embeds_one) or relation.macro.eql?(:embeds_many))
                 if relation.class_name.eql?(self.class.to_s) and is_embedded
                   job[:relation_key] = relation.key
                   break
@@ -45,4 +45,4 @@ module AsyncSend
   end
 end
 
-::Mongoid::Document.extend(AsyncSend::Mongoid::Document)
+#::Mongoid::Document.extend(AsyncSend::Mongoid::Document)
