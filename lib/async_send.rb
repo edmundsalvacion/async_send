@@ -42,4 +42,4 @@ module AsyncSend
 end
 
 #Object.send(:include, AsyncSend::Object)
-#::Mongoid::Document.extend(AsyncSend::Mongoid::Document)
+::Mongoid::Document.send(:include, AsyncSend::Mongoid::Document)
