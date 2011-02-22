@@ -12,6 +12,7 @@ module AsyncSend
 
       # register signal handlers
       trap('TERM') { term }
+      trap('QUIT') { term }
 
       AsyncSend.config.pool.watch(AsyncSend.config.tube)
       loop do
