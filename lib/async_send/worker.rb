@@ -11,12 +11,12 @@ module AsyncSend
       puts "Rails Environment: #{Rails.env}\n\n"
 
       # register signal handlers
-      trap('QUIT') { quit }
+      trap('TERM') { term }
 
       AsyncSend.config.pool.watch(AsyncSend.config.tube)
       loop do
 
-        break if quit?
+        break if term?
 
         if job = AsyncSend.config.pool.reserve
           begin
@@ -51,14 +51,14 @@ module AsyncSend
 
     end
 
-    def quit
-      puts "RECIEVED QUIT SIGNAL"
-      Process.kill('TERM', 0) unless @busy
-      @quit = true
+    def term
+      puts "Request to TERM #{Time.now}"
+      Process.kill('KILL', 0) unless @busy
+      @term = true
     end
 
-    def quit?
-      @quit
+    def term?
+      @term
     end
 
   end
