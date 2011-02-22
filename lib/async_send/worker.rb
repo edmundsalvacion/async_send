@@ -7,7 +7,7 @@ module AsyncSend
 
     def work
 
-      puts "Starting AsyncSend Worker: pid #{Process.pid}"
+      puts "Starting AsyncSend Worker: pid #{Process.pid} - #{Time.now}"
       puts "Rails Environment: #{Rails.env}\n\n"
 
       # register signal handlers
@@ -54,7 +54,7 @@ module AsyncSend
 
     def term
       puts "Request to TERM #{Time.now}"
-      Process.kill('KILL', 0) unless @busy
+      abort("Aborting process #{Time.now}") unless @busy
       @term = true
     end
 
