@@ -3,16 +3,10 @@ module AsyncSend
     module Document
 
       def async_send(method, *args)
-        self.send_job(method, 0, *args)
+        self.async_send_with_delay(method, 0, *args)
       end
 
       def async_send_with_delay(method, delay=0, *args)
-        self.send_job(method, delay, *args)
-      end
-
-      private
-
-      def send_job(method, delay=0, *args)
 
         if self.respond_to? method
           job = {
@@ -41,7 +35,7 @@ module AsyncSend
 
           unless AsyncSend.config.pool.nil?
             AsyncSend.config.pool.use(AsyncSend.config.tube)
-            AsyncSend.config.pool.put(job.to_json)
+            AsyncSend.config.pool.put(job.to_json, 65536, delay)
           else
             # Run job when no pool has been set
             AsyncSend::Worker.run_job(job.to_json)
