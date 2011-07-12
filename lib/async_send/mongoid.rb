@@ -11,7 +11,7 @@ module AsyncSend
         if self.respond_to? method
           job = {
             :class => self.class.to_s,
-            :id => self.id,
+            :id => self.id.to_s,
             :args => args,
             :method => method.to_s
           }
