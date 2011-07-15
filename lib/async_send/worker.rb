@@ -6,17 +6,14 @@ module AsyncSend
     end
 
     def work
-
       puts "Starting AsyncSend Worker: pid #{Process.pid} - #{Time.now}"
       puts "Rails Environment: #{Rails.env}\n\n"
 
-      # register signal handlers
       trap('TERM') { term }
       trap('QUIT') { term }
 
       AsyncSend.config.pool.watch(AsyncSend.config.tube)
       loop do
-
         break if term?
 
         if job = AsyncSend.config.pool.reserve
@@ -33,7 +30,6 @@ module AsyncSend
             @busy = false
           end
         end
-
       end
 
     end
@@ -51,7 +47,7 @@ module AsyncSend
     def self.run_job(payload)
       data = ActiveSupport::JSON.decode(payload)
 
-      puts "Job Recieved #{Time.now} ----------------------------"
+      puts "Job Recieved #{Time.now} ----------------------------\n"
       puts data
       puts "\n"
 

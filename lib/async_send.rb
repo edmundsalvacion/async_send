@@ -22,14 +22,10 @@
 
 require "singleton"
 require "async_send/config"
-require "async_send/object"
 require "async_send/worker"
 require "async_send/railtie"
 require "async_send/mongoid"
 require "beanstalk-client"
-
-#require "async_send/railtie" if defined?(Rails)
-#require "async_send/mongoid" if defined?(Mongoid)
 
 module AsyncSend
   class << self
@@ -41,5 +37,4 @@ module AsyncSend
   end
 end
 
-#Object.send(:include, AsyncSend::Object)
 ::Mongoid::Document.send(:include, AsyncSend::Mongoid::Document)
