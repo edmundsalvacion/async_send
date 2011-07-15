@@ -1,4 +1,5 @@
-require "beanstalk-client"
+require 'beanstalk-client'
+require 'logger'
 
 module AsyncSend
   class Config
@@ -16,6 +17,14 @@ module AsyncSend
       end
     end
 
+    def logger
+      @logger ||= Logger.new(STDOUT)
+    end
+
+    def logger=(file)
+      @logger = Logger.new(file)
+    end
+
     def pool
       @pool ||= _pool
     end
@@ -28,7 +37,7 @@ module AsyncSend
       if self.hosts
         Beanstalk::Pool.new(self.hosts)
       end
-    end 
+    end
 
   end
 end

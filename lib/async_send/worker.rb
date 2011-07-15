@@ -6,8 +6,8 @@ module AsyncSend
     end
 
     def work
-      puts "Starting AsyncSend Worker: pid #{Process.pid} - #{Time.now}"
-      puts "Rails Environment: #{Rails.env}\n\n"
+      AsyncSend.config.logger.info "\nStarting AsyncSend Worker: pid #{Process.pid} - #{Time.now}\n"
+      AsyncSend.config.logger.info "\nRails Environment: #{Rails.env}\n"
 
       trap('TERM') { term }
       trap('QUIT') { term }
@@ -21,10 +21,9 @@ module AsyncSend
             @busy = true
             AsyncSend::Worker.run_job(job.body)
           rescue Exception => e
-            puts "Job Error #{Time.now}"
-            puts e.message
-            puts e.backtrace
-            puts "\n"
+            AsyncSend.config.logger.error "\nJob Error #{Time.now}\n"
+            AsyncSend.config.logger.error e.message
+            AsyncSend.config.logger.error e.backtrace
           ensure
             job.delete
             @busy = false
@@ -35,7 +34,7 @@ module AsyncSend
     end
 
     def term
-      puts "Request to TERM #{Time.now}"
+      AsyncSend.config.logger.info "\nRequest to TERM #{Time.now}\n"
       abort("Aborting process #{Time.now}") unless @busy
       @term = true
     end
@@ -47,9 +46,8 @@ module AsyncSend
     def self.run_job(payload)
       data = ActiveSupport::JSON.decode(payload)
 
-      puts "Job Recieved #{Time.now} ----------------------------\n"
-      puts data
-      puts "\n"
+      AsyncSend.config.logger.info "\nJob Recieved #{Time.now} ----------------------------\n"
+      AsyncSend.config.logger.info data
 
       unless data['embedded']
         object = Kernel.const_get(data['class']).find(data['id'])
